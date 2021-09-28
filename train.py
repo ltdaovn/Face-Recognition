@@ -33,7 +33,7 @@ def detect_face(img) :
 	return gray[y:y+w, x:x+h], faces[0]
 
 def data() :
-	dirs = os.listdir("Dataset")
+	dirs = os.listdir("Dataset_lfw")
 
 
 	faces = []
