@@ -35,6 +35,7 @@ def detect_face(img) :
 def data() :
 	dirs = os.listdir("Dataset")
 
+
 	faces = []
 	labels = []
 
@@ -43,7 +44,7 @@ def data() :
 
 		label = int(i)
 
-		for j in os.listdir(set) :
+		for j in os.listdir(set):
 			path = set + "/" + j
 			img = cv2.imread(path)
 			face, rect = detect_face(img)
@@ -60,17 +61,18 @@ def data() :
 
 faces, labels = data()
 
-face_recognizer = cv2.face.createLBPHFaceRecognizer()
+#face_recognizer = cv2.face.createLBPHFaceRecognizer()
+face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 face_recognizer.train(faces, numpy.array(labels))
 
 def predict(img) :
-
 	face, rect = detect_faces(img)
 
 	if face is not None :
 		for i in range(0, len(face)) :
-			label = face_recognizer.predict(face[i])
+			#label = face_recognizer.predict(face[i])
+			label, conf = face_recognizer.predict(face[i])
 			label_text = dataset[label]
 
 			(x, y, w, h) = rect[i]
@@ -79,7 +81,8 @@ def predict(img) :
 
 	return img
 
-video_capture = cv2.VideoCapture(1)
+#video_capture = cv2.VideoCapture(1)
+video_capture = cv2.VideoCapture(0)
 
 while True :
 	ret, frame = video_capture.read()
